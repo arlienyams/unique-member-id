@@ -27,7 +27,8 @@
  * @subpackage Unique_Member_Id/includes
  * @author     Arlington Nyamukapa <developer@arlienyams.com>
  */
-class Unique_Member_Id {
+class Unique_Member_Id
+{
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -66,8 +67,9 @@ class Unique_Member_Id {
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct() {
-		if ( defined( 'UNIQUE_MEMBER_ID_VERSION' ) ) {
+	public function __construct()
+	{
+		if (defined('UNIQUE_MEMBER_ID_VERSION')) {
 			$this->version = UNIQUE_MEMBER_ID_VERSION;
 		} else {
 			$this->version = '1.0.0';
@@ -78,7 +80,6 @@ class Unique_Member_Id {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
 	}
 
 	/**
@@ -97,33 +98,33 @@ class Unique_Member_Id {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function load_dependencies() {
+	private function load_dependencies()
+	{
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-unique-member-id-loader.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-unique-member-id-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-unique-member-id-i18n.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-unique-member-id-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-unique-member-id-admin.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class-unique-member-id-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-unique-member-id-public.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-unique-member-id-public.php';
 
 		$this->loader = new Unique_Member_Id_Loader();
-
 	}
 
 	/**
@@ -135,12 +136,12 @@ class Unique_Member_Id {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function set_locale() {
+	private function set_locale()
+	{
 
 		$plugin_i18n = new Unique_Member_Id_i18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
+		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 	}
 
 	/**
@@ -150,13 +151,16 @@ class Unique_Member_Id {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_admin_hooks() {
+	private function define_admin_hooks()
+	{
 
-		$plugin_admin = new Unique_Member_Id_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Unique_Member_Id_Admin($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 
+		$this->loader->add_action('manage_users_columns', $plugin_admin, 'nyams_user_id_column');
+		$this->loader->add_action('manage_users_custom_column', $plugin_admin, 'nyams_user_id_column_content', 10, 3);
 	}
 
 	/**
@@ -166,13 +170,15 @@ class Unique_Member_Id {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_public_hooks() {
+	private function define_public_hooks()
+	{
 
-		$plugin_public = new Unique_Member_Id_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Unique_Member_Id_Public($this->get_plugin_name(), $this->get_version());
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
+		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 
+		$this->loader->add_shortcode('nyams_uniqueID', $plugin_public, 'uniqueID_shortcode');
 	}
 
 	/**
@@ -180,7 +186,8 @@ class Unique_Member_Id {
 	 *
 	 * @since    1.0.0
 	 */
-	public function run() {
+	public function run()
+	{
 		$this->loader->run();
 	}
 
@@ -191,7 +198,8 @@ class Unique_Member_Id {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_plugin_name() {
+	public function get_plugin_name()
+	{
 		return $this->plugin_name;
 	}
 
@@ -201,7 +209,8 @@ class Unique_Member_Id {
 	 * @since     1.0.0
 	 * @return    Unique_Member_Id_Loader    Orchestrates the hooks of the plugin.
 	 */
-	public function get_loader() {
+	public function get_loader()
+	{
 		return $this->loader;
 	}
 
@@ -211,8 +220,8 @@ class Unique_Member_Id {
 	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	 */
-	public function get_version() {
+	public function get_version()
+	{
 		return $this->version;
 	}
-
 }

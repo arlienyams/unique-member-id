@@ -20,7 +20,8 @@
  * @subpackage Unique_Member_Id/admin
  * @author     Arlington Nyamukapa <developer@arlienyams.com>
  */
-class Unique_Member_Id_Admin {
+class Unique_Member_Id_Admin
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,11 +48,11 @@ class Unique_Member_Id_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -59,7 +60,8 @@ class Unique_Member_Id_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,8 +75,7 @@ class Unique_Member_Id_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/unique-member-id-admin.css', array(), $this->version, 'all' );
-
+		// wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/unique-member-id-admin.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -82,7 +83,8 @@ class Unique_Member_Id_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -96,8 +98,38 @@ class Unique_Member_Id_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/unique-member-id-admin.js', array( 'jquery' ), $this->version, false );
-
+		// wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/unique-member-id-admin.js', array('jquery'), $this->version, false);
 	}
 
+	/**
+	 * Add Column
+	 *
+	 * @param array $columns
+	 * @return array
+	 */
+	public function nyams_user_id_column($columns)
+	{
+
+		$columns['user_id'] = 'Customer ID';
+		return $columns;
+	}
+
+	/**
+	 * Column Content
+	 *
+	 * @param string $value
+	 * @param string $column_name
+	 * @param integer $user_id
+	 * @return string
+	 */
+	public function nyams_user_id_column_content($value, $column_name, $user_id)
+	{
+		if ('user_id' == $column_name) {
+			$user_id =  str_pad($user_id, 4, "0", STR_PAD_LEFT);
+
+			return $user_id;
+		}
+
+		return $value;
+	}
 }

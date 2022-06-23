@@ -75,7 +75,7 @@ class Unique_Member_Id_Public
 		 * class.
 		 */
 
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/unique-member-id-public.css', array(), $this->version, 'all');
+		// wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/unique-member-id-public.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -98,48 +98,27 @@ class Unique_Member_Id_Public
 		 * class.
 		 */
 
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/unique-member-id-public.js', array('jquery'), $this->version, false);
+		// wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/unique-member-id-public.js', array('jquery'), $this->version, false);
+	}
+
+
+
+	/**
+	 * Show user id in profile and in shortcode 
+	 *
+	 * @return void
+	 */
+	public function uniqueID_shortcode()
+	{
+
+		//Use the wordpress  user ID as the unique customer ID
+		$user_id = get_current_user_id();
+		if ($user_id == 0) {
+			echo '';
+		} else {
+
+			$user_id =  str_pad($user_id, 4, "0", STR_PAD_LEFT);
+			echo 'Customer ID _' . $user_id;
+		}
 	}
 }
-
-// Show user id in profile and in shortcode 
-function uniqueID_shortcode()
-{
-
-	//Use the wordpress  user ID as the unique customer ID
-	$user_id = get_current_user_id();
-	if ($user_id == 0) {
-		echo '';
-	} else {
-
-		$user_id =  str_pad($user_id, 4, "0", STR_PAD_LEFT);
-		echo 'Customer ID _' . $user_id;
-	}
-}
-add_shortcode('nyams_uniqueID', 'uniqueID_shortcode');
-
-
-
-/*
- * Add column
- */
-function nyams_user_id_column($columns)
-{
-	$columns['user_id'] = 'Customer ID';
-	return $columns;
-}
-add_filter('manage_users_columns', 'nyams_user_id_column');
-
-/*
- * Column content
- */
-function nyams_user_id_column_content($value, $column_name, $user_id)
-{
-	if ('user_id' == $column_name)
-
-		$user_id =  str_pad($user_id, 4, "0", STR_PAD_LEFT);
-
-	return $user_id;
-	return $value;
-}
-add_action('manage_users_custom_column',  'nyams_user_id_column_content', 10, 3);
