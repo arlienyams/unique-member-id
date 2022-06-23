@@ -20,4 +20,4 @@ This plugin displays a unique customer or member ID on the users dashboard and o
 
 == Usage ==
 
-Use the shortcode [nyams_uniqueID] to dispplay the customer or member ID on post or page
+Use the shortcode <?php echo do_shortcode('[nyams_uniqueID]'); ?> to display the customer or member ID on post or page
