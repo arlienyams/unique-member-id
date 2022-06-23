@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       Unique Customer/ Member ID
  * Plugin URI:        https://www.arlienyams.com/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       A simple plugin to display a unique customer or member ID
  * Version:           1.0.0
  * Author:            Arlington Nyamukapa
  * Author URI:        https://www.arlienyams.com
@@ -26,7 +26,7 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
+if (!defined('WPINC')) {
 	die;
 }
 
@@ -35,14 +35,15 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'UNIQUE_MEMBER_ID_VERSION', '1.0.0' );
+define('UNIQUE_MEMBER_ID_VERSION', '1.0.0');
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-unique-member-id-activator.php
  */
-function activate_unique_member_id() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-unique-member-id-activator.php';
+function activate_unique_member_id()
+{
+	require_once plugin_dir_path(__FILE__) . 'includes/class-unique-member-id-activator.php';
 	Unique_Member_Id_Activator::activate();
 }
 
@@ -50,19 +51,20 @@ function activate_unique_member_id() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-unique-member-id-deactivator.php
  */
-function deactivate_unique_member_id() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-unique-member-id-deactivator.php';
+function deactivate_unique_member_id()
+{
+	require_once plugin_dir_path(__FILE__) . 'includes/class-unique-member-id-deactivator.php';
 	Unique_Member_Id_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_unique_member_id' );
-register_deactivation_hook( __FILE__, 'deactivate_unique_member_id' );
+register_activation_hook(__FILE__, 'activate_unique_member_id');
+register_deactivation_hook(__FILE__, 'deactivate_unique_member_id');
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-unique-member-id.php';
+require plugin_dir_path(__FILE__) . 'includes/class-unique-member-id.php';
 
 /**
  * Begins execution of the plugin.
@@ -73,10 +75,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-unique-member-id.php';
  *
  * @since    1.0.0
  */
-function run_unique_member_id() {
+function run_unique_member_id()
+{
 
 	$plugin = new Unique_Member_Id();
 	$plugin->run();
-
 }
 run_unique_member_id();
