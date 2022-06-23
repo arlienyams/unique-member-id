@@ -20,7 +20,8 @@
  * @subpackage Unique_Member_Id/public
  * @author     Arlington Nyamukapa <developer@arlienyams.com>
  */
-class Unique_Member_Id_Public {
+class Unique_Member_Id_Public
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,11 +48,11 @@ class Unique_Member_Id_Public {
 	 * @param      string    $plugin_name       The name of the plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -59,7 +60,8 @@ class Unique_Member_Id_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,8 +75,7 @@ class Unique_Member_Id_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/unique-member-id-public.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/unique-member-id-public.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -82,7 +83,8 @@ class Unique_Member_Id_Public {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -96,8 +98,55 @@ class Unique_Member_Id_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/unique-member-id-public.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/unique-member-id-public.js', array('jquery'), $this->version, false);
 	}
-
 }
+
+// show user id in profile and in shortcode
+// Add Shortcode
+function uniqueID_shortcode()
+{
+
+	//Use the wordpress  user ID as the unique customer ID
+	$user_id = get_current_user_id();
+	if ($user_id == 0) {
+		echo '';
+	} else {
+
+		$user_id =  str_pad($user_id, 4, "0", STR_PAD_LEFT);
+		echo 'Customer ID _' . $user_id;
+	}
+}
+add_shortcode('nyams_uniqueID', 'uniqueID_shortcode');
+
+
+
+/*
+ * Adding the column
+ */
+function nyams_user_id_column($columns)
+{
+	$columns['user_id'] = 'Customer ID';
+	return $columns;
+}
+add_filter('manage_users_columns', 'nyams_user_id_column');
+
+/*
+ * Column content
+ */
+function nyams_user_id_column_content($value, $column_name, $user_id)
+{
+	if ('user_id' == $column_name)
+		return $user_id;
+	return $value;
+}
+add_action('manage_users_custom_column',  'nyams_user_id_column_content', 10, 3);
+
+/*
+ * Column style (you can skip this if you want)
+ */
+function nyams_user_id_column_style()
+{
+	echo '<style>.column-user_id{width: 10%}</style>';
+}
+add_action('admin_head-users.php',  'nyams_user_id_column_style');
