@@ -143,12 +143,3 @@ function nyams_user_id_column_content($value, $column_name, $user_id)
 	return $value;
 }
 add_action('manage_users_custom_column',  'nyams_user_id_column_content', 10, 3);
-
-/*
- * Column style (you can skip this if you want)
- */
-// function nyams_user_id_column_style()
-// {
-// 	echo '<style>.column-user_id{width: 10%}</style>';
-// }
-// add_action('admin_head-users.php',  'nyams_user_id_column_style');
