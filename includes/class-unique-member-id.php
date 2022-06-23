@@ -178,7 +178,7 @@ class Unique_Member_Id
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 
-		// $this->loader->add_shortcode('nyams_uniqueID', $plugin_public, 'uniqueID_shortcode');
+		$this->loader->add_shortcode('nyams_uniqueID', $plugin_public, 'uniqueID_shortcode');
 	}
 
 	/**
