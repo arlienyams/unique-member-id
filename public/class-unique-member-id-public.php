@@ -113,7 +113,6 @@ function uniqueID_shortcode()
 		echo '';
 	} else {
 
-		$user_id =  str_pad($user_id, 4, "0", STR_PAD_LEFT);
 		echo 'Customer ID _' . $user_id;
 	}
 }
