@@ -18,3 +18,6 @@ This plugin displays a unique customer or member ID on the users dashboard and o
 1. Upload `unique-member-id.php` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
+== Usage ==
+
+Use the shortcode [nyams_uniqueID] to dispplay the customer or member ID on post or page
